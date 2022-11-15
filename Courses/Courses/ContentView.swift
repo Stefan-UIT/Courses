@@ -15,37 +15,57 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             TitleView()
+                .padding(.horizontal)
                 .blur(radius: show ? 20 : 0)
                 .opacity(showCard ? 0.4 : 1)
-                .animation(.default,
-                           value: show)
+                .offset(y: showCard ? -200 : 0)
+                .animation(
+                    Animation
+                        .default
+                        .delay(0.1)
+                    , value: [show, showCard])
             BackCardView(color: show ? .card3 : .card4)
+                .frame(width: showCard ? 300 : 340, height: 220)
                 .offset(x: 0, y: show ? -400 : -40)
+                .offset(y: showCard ? -180 : 0)
                 .offset(x: viewState.width,
                         y: viewState.height)
-                .scaleEffect(0.9)
+                .scaleEffect(showCard ? 1 : 0.9)
                 .rotationEffect(.degrees(show ? 0 : 10))
-                .rotation3DEffect(.degrees(10), axis: (x: 10, y: 0, z: 0))
+                .rotationEffect(.degrees(showCard ? -10 : 0))
+                .rotation3DEffect(.degrees(showCard ? 0 : 10), axis: (x: 10, y: 0, z: 0))
                 .blendMode(.hardLight)
                 .animation(.easeInOut(duration: 0.5),
-                           value: show)
+                           value: [show, showCard])
             BackCardView(color: show ? .card4 : .card3)
+                .frame(width: 340, height: 220)
                 .offset(x: 0, y: show ? -200 : -20)
                 .offset(x: viewState.width,
                         y: viewState.height)
-                .scaleEffect(0.95)
+                .offset(y: showCard ? -140 : 0)
+                .scaleEffect(showCard ? 1 : 0.95)
                 .rotationEffect(.degrees(show ? 0 : 5))
-                .rotation3DEffect(.degrees(5), axis: (x: 10, y: 0, z: 0))
+                .rotationEffect(.degrees(showCard ? -5 : 0))
+                .rotation3DEffect(.degrees(showCard ? 0 : 5), axis: (x: 10, y: 0, z: 0))
                 .blendMode(.hardLight)
                 .animation(.easeInOut(duration: 0.3),
-                           value: show)
+                           value: [show, showCard])
             CardView()
+                .frame(width: showCard ? .infinity : 340,
+                       height: 220)
+                .background(Color.black)
+                .cornerRadius(showCard ? 30 : 20)
+                .shadow(radius: 20)
+                .offset(y: showCard ? -100 : 0)
                 .offset(x: viewState.width,
                         y: viewState.height)
                 .blendMode(.hardLight)
                 .animation(.spring(response: 0.3,
                                    dampingFraction: 0.6),
                            value: viewState)
+                .animation(.spring(response: 0.3,
+                                   dampingFraction: 0.6),
+                           value: showCard)
                 .onTapGesture {
                     self.showCard.toggle()
                 }
@@ -60,7 +80,7 @@ struct ContentView: View {
                 )
 
             BottomCardView()
-                .offset(y: showCard ? 400 : 3000)
+                .offset(y: showCard ? 500 : 2000)
                 .blur(radius: show ? 20 : 0)
                 .animation(.default,
                            value: show)
@@ -100,10 +120,6 @@ struct CardView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 300, height: 110, alignment: .top)
         }
-        .frame(width: 340, height: 220)
-        .background(Color.black)
-        .cornerRadius(20)
-        .shadow(radius: 20)
     }
 }
 
@@ -111,7 +127,6 @@ struct BackCardView: View {
     var color: Color
     var body: some View {
         color
-            .frame(width: 340, height: 220)
             .cornerRadius(20)
             .shadow(radius: 20)
     }
