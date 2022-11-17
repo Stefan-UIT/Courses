@@ -11,4 +11,5 @@ extension Image {
     static let logo1 = Image("Logo1")
     static let card1 = Image("Card1")
     static let background1 = Image("Background1")
+    static let avatar = Image("Avatar")
 }
