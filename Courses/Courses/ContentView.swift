@@ -7,10 +7,17 @@
 
 import SwiftUI
 
+enum BottomStateE {
+    case full
+    case mid
+    case dismiss
+}
+
 struct ContentView: View {
     @State var show = false
     @State var viewState: CGSize = .zero
     @State var showCard = false
+    @State var bottomState: CGSize = .zero
 
     var body: some View {
         ZStack {
@@ -81,11 +88,28 @@ struct ContentView: View {
 
             BottomCardView()
                 .offset(y: showCard ? 500 : 2000)
+                .offset(y: self.bottomState.height)
                 .blur(radius: show ? 20 : 0)
                 .animation(.default,
                            value: show)
                 .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8),
                            value: showCard)
+                .gesture (
+                    DragGesture().onChanged { value in
+                        self.bottomState = value.translation
+                    }.onEnded { _ in
+
+                        if self.bottomState.height > 50 {
+                            self.showCard = false
+                        } else if self.bottomState.height < -100 {
+                            self.bottomState.height = -300
+                        } else {
+                            self.bottomState = .zero
+                        }
+                    }
+                )
+                .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8),
+                           value: bottomState)
         }
     }
 }
