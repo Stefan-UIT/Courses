@@ -10,6 +10,7 @@ import SwiftUI
 extension Color {
     static let accent = Color("accent")
     static let card1 = Color("card1")
+    static let card2 = Color("card2")
     static let card4 = Color("card4")
     static let card3 = Color("card3")
 }
