@@ -40,21 +40,11 @@ struct HomeView: View {
             .padding(.leading, 14)
             .padding(.top, 30)
 
-            HStack(spacing: 12) {
-                RingView(colors: [Color.purple, Color.blue], size: .init(width: 44, height: 44), percent: 68, show: .constant(true))
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("6 minutes left")
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                    Text("Watched 10 mins today")
-                        .font(.caption)
-                }
+            ScrollView(.horizontal, showsIndicators: false) {
+                WatchRingsView()
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 30)
             }
-            .padding(8)
-            .background(.white)
-            .cornerRadius(20)
-            .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: 20)
-            .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1)
 
             ScrollView(.horizontal,
                        showsIndicators: false) {
@@ -112,5 +102,42 @@ struct SectionView: View {
         .background(section.color)
         .cornerRadius(30)
         .shadow(color: section.color.opacity(0.3), radius: 20, x: 0, y: 20)
+    }
+}
+
+struct WatchRingsView: View {
+    var body: some View {
+        HStack(spacing: 30) {
+            HStack(spacing: 12) {
+                RingView(colors: [Color.purple, Color.blue], size: .init(width: 44, height: 44), percent: 68, show: .constant(true))
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("6 minutes left")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                    Text("Watched 10 mins today")
+                        .font(.caption)
+                }
+            }
+            .padding(8)
+            .background(.white)
+            .cornerRadius(20)
+            .modifier(ShadowModifier())
+            HStack(spacing: 12) {
+                RingView(colors: [Color.red, Color.yellow], size: .init(width: 32, height: 32), percent: 54, show: .constant(true))
+            }
+            .padding(8)
+            .background(.white)
+            .cornerRadius(20)
+            .modifier(ShadowModifier())
+
+            HStack(spacing: 12) {
+                RingView(colors: [Color.red, Color.yellow], size: .init(width: 32, height: 32), percent: 54, show: .constant(true))
+            }
+            .padding(8)
+            .background(.white)
+            .cornerRadius(20)
+            .modifier(ShadowModifier())
+
+        }
     }
 }
